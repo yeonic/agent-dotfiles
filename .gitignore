@@ -1,0 +1,10 @@
+# Install-time artifacts
+*.backup.*
+
+# OS / editor cruft
+.DS_Store
+*.swp
+*~
+
+# Node (extensions may add this later)
+node_modules/

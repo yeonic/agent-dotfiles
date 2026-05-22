@@ -1,0 +1,46 @@
+{
+  "lastChangelogVersion": "0.75.3",
+  "defaultProvider": "anthropic",
+  "defaultModel": "claude-opus-4-7",
+  "defaultThinkingLevel": "medium",
+  "packages": [
+    "npm:pi-claude-oauth-adapter",
+    "npm:pi-mcp-adapter",
+    "npm:@vanillagreen/pi-qol",
+    "npm:@vanillagreen/pi-extension-manager",
+    "npm:@aliou/pi-guardrails",
+    "npm:context-mode",
+    "npm:pi-subagents"
+  ],
+  "extensions": [
+    "~/.pi/agent/extensions/footer-status/index.ts",
+    "~/.pi/agent/extensions/usage-bridge/index.ts",
+    "~/.pi/agent/extensions/experimental-injector/index.ts"
+  ],
+  "skills": [
+    "~/.claude/skills"
+  ],
+  "prompts": [
+    "~/.claude/commands"
+  ],
+  "compaction": {
+    "enabled": false
+  },
+  "editorPaddingX": 2,
+  "terminal": {
+    "showTerminalProgress": true
+  },
+  "showHardwareCursor": true,
+  "vstack": {
+    "extensionManager": {
+      "disabledItems": [],
+      "config": {
+        "@vanillagreen/pi-qol": {
+          "enabled": true,
+          "compactPrompt": false,
+          "thinkingTimer.enabled": true
+        }
+      }
+    }
+  }
+}
