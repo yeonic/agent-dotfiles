@@ -111,6 +111,7 @@ Language-agnostic; applies to any code being written or reviewed.
 
 **Write what the code can't say. Less is better.**
 
+- **Default silence; add only on explicit request or when the *why* is genuinely unrecoverable.** Don't author docstrings or inline comments as a side effect of editing code. Function names, commit messages, and git blame already carry most of the historical context; reach for a written comment only when those channels can't.
 - **Never explain what the code does.** Code explains itself; readers can read it. Comments explain the *why*: the constraint, the historical reason, the surprising trade-off, the upstream bug being worked around.
 - **Fewer is better.** Heavy commenting is usually a symptom — the code or the names are doing too little. Fix those first; comment only what remains genuinely non-obvious.
 - **No session-local jargon.** Comments outlive the conversation that produced them. Don't write "as we discussed" or reference symbols only meaningful in the current chat. Write so future-you (or anyone else) can read in isolation.
