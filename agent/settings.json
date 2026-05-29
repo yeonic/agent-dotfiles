@@ -1,7 +1,7 @@
 {
-  "lastChangelogVersion": "0.76.0",
+  "lastChangelogVersion": "0.77.0",
   "defaultProvider": "anthropic",
-  "defaultModel": "claude-opus-4-7",
+  "defaultModel": "claude-opus-4-8",
   "defaultThinkingLevel": "medium",
   "packages": [
     "npm:pi-claude-oauth-adapter",
@@ -46,7 +46,7 @@
   "enabledModels": [
     "anthropic/claude-sonnet-4-6",
     "openai-codex/gpt-5.3-codex",
-    "anthropic/claude-opus-4-7",
+    "anthropic/claude-opus-4-8",
     "openai-codex/gpt-5.5"
   ]
 }
