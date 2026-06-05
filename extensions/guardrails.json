@@ -17,7 +17,7 @@
     "patterns": [
       { "regex": true, "pattern": "\\bgit\\s+commit\\b", "description": "git commit (incl. --amend) — needs explicit user permission" },
       { "regex": true, "pattern": "\\bgit\\s+push\\b", "description": "git push (incl. --force / --delete) — needs explicit user permission" },
-      { "regex": true, "pattern": "\\bgit\\s+(merge|rebase|cherry-pick|revert)\\b", "description": "git history mutation — needs explicit user permission" },
+      { "regex": true, "pattern": "\\bgit\\s+(merge(?!-base)|rebase|cherry-pick|revert)\\b(?![^\\n]*--(abort|continue|skip|quit))", "description": "git history mutation — needs explicit user permission" },
       { "regex": true, "pattern": "\\bgit\\s+reset\\s+--(hard|merge|keep)\\b", "description": "git reset discarding changes — needs explicit user permission" },
       { "regex": true, "pattern": "\\bgit\\s+restore\\b(?![^\\n]*--staged)", "description": "git restore discarding worktree changes — needs explicit user permission" },
       { "regex": true, "pattern": "\\bgit\\s+branch\\s+-[dD]\\b", "description": "git branch delete — needs explicit user permission" },
