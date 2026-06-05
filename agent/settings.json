@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.78.0",
+  "lastChangelogVersion": "0.78.1",
   "defaultProvider": "anthropic",
   "defaultModel": "claude-opus-4-8",
   "defaultThinkingLevel": "medium",
@@ -15,16 +15,16 @@
   "extensions": [
     "~/.pi/agent/extensions/footer-status/index.ts",
     "~/.pi/agent/extensions/usage-bridge/index.ts",
-    "~/.pi/agent/extensions/experimental-injector/index.ts"
+    "~/.pi/agent/extensions/experimental-injector/index.ts",
+    "~/.pi/agent/extensions/standards-verifier/index.ts",
+    "~/.pi/agent/extensions/claude-context-adapter/index.ts"
   ],
-  "skills": [
-    "~/.claude/skills"
-  ],
+  "skills": [],
   "prompts": [
     "~/.claude/commands"
   ],
   "compaction": {
-    "enabled": false
+    "enabled": true
   },
   "editorPaddingX": 2,
   "terminal": {

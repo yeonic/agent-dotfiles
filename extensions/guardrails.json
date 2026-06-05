@@ -11,5 +11,22 @@
   },
   "pathAccess": {
     "mode": "ask"
+  },
+  "permissionGate": {
+    "requireConfirmation": true,
+    "patterns": [
+      { "regex": true, "pattern": "\\bgit\\s+commit\\b", "description": "git commit (incl. --amend) — needs explicit user permission" },
+      { "regex": true, "pattern": "\\bgit\\s+push\\b", "description": "git push (incl. --force / --delete) — needs explicit user permission" },
+      { "regex": true, "pattern": "\\bgit\\s+(merge|rebase|cherry-pick|revert)\\b", "description": "git history mutation — needs explicit user permission" },
+      { "regex": true, "pattern": "\\bgit\\s+reset\\s+--(hard|merge|keep)\\b", "description": "git reset discarding changes — needs explicit user permission" },
+      { "regex": true, "pattern": "\\bgit\\s+restore\\b(?![^\\n]*--staged)", "description": "git restore discarding worktree changes — needs explicit user permission" },
+      { "regex": true, "pattern": "\\bgit\\s+branch\\s+-[dD]\\b", "description": "git branch delete — needs explicit user permission" },
+      { "regex": true, "pattern": "\\bgit\\s+tag\\s+-d\\b", "description": "git tag delete — needs explicit user permission" },
+      { "regex": true, "pattern": "\\bgit\\s+stash\\s+(drop|clear)\\b", "description": "git stash drop/clear — needs explicit user permission" },
+      { "regex": true, "pattern": "\\bgit\\s+clean\\s+-", "description": "git clean (destructive) — needs explicit user permission" },
+      { "regex": true, "pattern": "\\bgit\\s+checkout\\s+(-f\\b|--\\s|\\.)", "description": "git checkout discarding uncommitted changes — needs explicit user permission" },
+      { "regex": true, "pattern": "\\bgit\\s+config\\s+(--global|--system)\\b", "description": "git config global/system write — needs explicit user permission" },
+      { "regex": true, "pattern": "\\bgh\\s+(pr\\s+(merge|close)|release\\s+(create|delete))\\b", "description": "gh remote-mutating command — needs explicit user permission" }
+    ]
   }
 }
