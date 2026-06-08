@@ -93,6 +93,10 @@ merge_claude_settings() {
             { type: "command", command: ($h + "/inject-experimental.sh") },
             { type: "command", command: ($h + "/inject-standards.sh") }
         ] } ]
+    | .hooks.PostToolUse = ((.hooks.PostToolUse // []) | strip) + [
+        { matcher: "Edit|Write|MultiEdit|NotebookEdit", hooks: [
+            { type: "command", command: ($h + "/mark-code-edit.sh") }
+        ] } ]
     | .hooks.Stop = ((.hooks.Stop // []) | strip) + [
         { matcher: "", hooks: [
             { type: "command", command: ($h + "/verify-standards.sh") }
@@ -110,6 +114,7 @@ install_claude() {
   log "target: claude ($CLAUDE_DIR)"
   [[ -d "$CLAUDE_DIR" ]] || { warn "skip claude (no $CLAUDE_DIR)"; return 0; }
   link "$ROOT/agent/AGENTS.md" "$CLAUDE_DIR/CLAUDE.md"
+  link "$ROOT/statusline/statusline.sh" "$CLAUDE_DIR/statusline-command.sh"
   for s in "${SKILLS[@]}"; do link "$ROOT/skills/$s" "$CLAUDE_DIR/skills/$s"; done
   merge_claude_settings
 }

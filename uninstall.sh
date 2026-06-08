@@ -67,6 +67,7 @@ unmerge_claude_settings() {
     def strip: map(select((.hooks // []) | any(.command | contains($h)) | not));
     if .hooks then
       .hooks.SessionStart = ((.hooks.SessionStart // []) | strip)
+      | .hooks.PostToolUse = ((.hooks.PostToolUse // []) | strip)
       | .hooks.Stop        = ((.hooks.Stop // []) | strip)
       | .hooks |= with_entries(select(.value | length > 0))
       | if (.hooks | length) == 0 then del(.hooks) else . end
@@ -83,6 +84,7 @@ unmerge_claude_settings() {
 uninstall_claude() {
   log "target: claude ($CLAUDE_DIR)"
   unlink_if_ours "$CLAUDE_DIR/CLAUDE.md"
+  unlink_if_ours "$CLAUDE_DIR/statusline-command.sh"
   for s in "${SKILLS[@]}"; do unlink_if_ours "$CLAUDE_DIR/skills/$s"; done
   unmerge_claude_settings
 }

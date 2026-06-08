@@ -42,6 +42,8 @@ pi-dotfiles/
 │   ├── inject-standards.sh     # SessionStart: write-time coding standards
 │   └── verify-standards.sh     # Stop: review-time net (loop-safe)
 ├── skills/                # Shared skills, symlinked per-tool
+├── statusline/            # Claude Code status line (cwd, model, ctx%, 5h/7d, PR+CI)
+│   └── statusline.sh
 ├── build.sh
 ├── install-agents.sh
 └── uninstall.sh
@@ -61,7 +63,7 @@ What each target does:
 | Target | Action |
 |---|---|
 | `pi` | Links `AGENTS.md`, `settings.json`, all `extensions/`, `skills/`, `experimental/` into `~/.pi/agent` |
-| `claude` | Links `CLAUDE.md` → `AGENTS.md`, per-skill links into `~/.claude/skills`, **merges** hooks into `~/.claude/settings.json` |
+| `claude` | Links `CLAUDE.md` → `AGENTS.md`, `statusline-command.sh` → `statusline/statusline.sh`, per-skill links into `~/.claude/skills`, **merges** hooks into `~/.claude/settings.json` |
 | `codex` | Links `AGENTS.md`, per-skill links into `~/.codex/skills` |
 
 - Real files are backed up to `<path>.backup.<timestamp>` before being replaced.
@@ -117,8 +119,20 @@ The two pi extensions that do real work (`experimental-injector`,
   `stop_hook_active`.
 
 `footer-status` and `usage-bridge` are pi-TUI-specific and intentionally not
-ported (Claude Code has its own statusLine). `guardrails.json` is currently pi
-only.
+ported. Their useful parts are instead rebuilt on Claude Code's **native**
+status line (see below). `guardrails.json` is currently pi only.
+
+### Claude Code status line
+
+`statusline/statusline.sh` (symlinked to `~/.claude/statusline-command.sh`)
+renders `cwd (branch) Model [ctx:N%] [5h:N% 7d:N%] PR#N ✓/✗/●`. Unlike the pi
+footer — which scrapes `anthropic-ratelimit-unified-*` response headers — Claude
+Code passes subscription usage **natively** in the status line stdin JSON
+(`.rate_limits.five_hour/.seven_day.used_percentage`, Pro/Max only, present after
+the first API response). PR + CI check counts come from `gh pr view`, cached per
+branch (60s TTL) and refreshed in a detached background process so rendering
+never blocks. `settings.json` already points `statusLine` at
+`~/.claude/statusline-command.sh`, so install only swaps the symlink target.
 
 ## Skills
 

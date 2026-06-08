@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 # Claude Code Stop hook.
-# Review-time net mirroring pi's standards-verifier: when the agent tries to
-# finish with uncommitted code changes, force a self-review against the testing
-# standards plus an actual lint/type-check/test run on the diff.
+# Review-time net mirroring pi's standards-verifier: fire a self-review against
+# the testing standards (plus an actual lint/type-check/test run) only when a
+# code file was edited THIS turn — signalled by a per-session marker that the
+# PostToolUse hook (mark-code-edit.sh) drops. This avoids firing on every Stop
+# just because the working tree has pre-existing uncommitted changes.
 #
 # Loop-safe: honours stop_hook_active so the review is demanded at most once per
 # stop sequence (the pi extension used a reviewSent flag for the same reason).
@@ -16,13 +18,10 @@ STANDARDS_DIR="${PI_STANDARDS_DIR:-$REPO/docs/standards}"
 input="$(cat)"
 [[ "$(printf '%s' "$input" | jq -r '.stop_hook_active // false')" == "true" ]] && exit 0
 
-CODE_RE='\.(py|ts|tsx|js|jsx|mjs|cjs|go|rs|java|kt|rb|php|cs|swift|c|h|cc|cpp|hpp|sh|bash|sql)$'
-
-changed="$( { git diff --name-only; git diff --cached --name-only; \
-              git ls-files --others --exclude-standard; } 2>/dev/null \
-  | grep -E "$CODE_RE" \
-  | grep -vE '/docs/standards/|AGENTS\.md$' || true )"
-[[ -z "$changed" ]] && exit 0
+session="$(printf '%s' "$input" | jq -r '.session_id // "default"' 2>/dev/null)"
+marker="$HOME/.claude/.standards-review-pending-${session}"
+[[ -f "$marker" ]] || exit 0   # no code edited this turn → stay silent
+rm -f "$marker"                # consume: one review per edit burst
 
 testing_standards=""
 shopt -s nullglob
